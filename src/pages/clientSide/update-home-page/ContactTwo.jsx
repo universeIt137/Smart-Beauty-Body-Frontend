@@ -1,8 +1,19 @@
 import React, { useEffect } from "react";
 import { FaPhoneAlt, FaHome } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const ContactTwo = () => {
+
+    const axiosPublic = useAxiosPublic();
+    const { data: webData = [] } = useQuery({
+        queryKey: ['webData'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/homepageContent');
+            return res.data[0];
+        }
+    })
 
 
     return (
@@ -34,7 +45,7 @@ const ContactTwo = () => {
                     </div>
                     <div className="p-4">
                         <h2 className="text-lg font-bold">Call Us</h2>
-                        <p className="text-sm">01936070007</p>
+                        <p className="text-sm"> { webData?.phone } </p>
                     </div>
                 </div>
 
@@ -45,7 +56,7 @@ const ContactTwo = () => {
                     </div>
                     <div className="p-4">
                         <h2 className="text-lg font-bold">Address</h2>
-                        <p className="text-sm">Gulshan 2,House 28 Road number 130</p>
+                        <p className="text-sm"> { webData?.address } </p>
                     </div>
                 </div>
 
@@ -56,7 +67,7 @@ const ContactTwo = () => {
                     </div>
                     <div className="p-4">
                         <h2 className="text-lg font-bold">Email</h2>
-                        <p className="text-sm">mdhasibhowlader828@gmail.com</p>
+                        <p className="text-sm">{ webData?.email } </p>
 
                     </div>
                 </div>
