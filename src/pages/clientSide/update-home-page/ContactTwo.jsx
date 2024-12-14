@@ -1,8 +1,19 @@
 import React, { useEffect } from "react";
 import { FaPhoneAlt, FaHome } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const ContactTwo = () => {
+
+    const axiosPublic = useAxiosPublic();
+    const { data: webData = [] } = useQuery({
+        queryKey: ['webData'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/homepageContent');
+            return res.data[0];
+        }
+    })
 
 
     return (
@@ -34,7 +45,7 @@ const ContactTwo = () => {
                     </div>
                     <div className="p-4">
                         <h2 className="text-lg font-bold">Call Us</h2>
-                        <p className="text-sm">01936070007</p>
+                        <p className="text-sm"> { webData?.phone } </p>
                     </div>
                 </div>
 
@@ -45,7 +56,7 @@ const ContactTwo = () => {
                     </div>
                     <div className="p-4">
                         <h2 className="text-lg font-bold">Address</h2>
-                        <p className="text-sm">Gulshan 2,House 28 Road number 130</p>
+                        <p className="text-sm"> { webData?.address } </p>
                     </div>
                 </div>
 
@@ -56,7 +67,7 @@ const ContactTwo = () => {
                     </div>
                     <div className="p-4">
                         <h2 className="text-lg font-bold">Email</h2>
-                        <p className="text-sm">mdhasibhowlader828@gmail.com</p>
+                        <p className="text-sm">{ webData?.email } </p>
 
                     </div>
                 </div>
@@ -69,7 +80,7 @@ const ContactTwo = () => {
             <div className=" hover:scale-105 transition-transform duration-300  ease-out w-full flex my-5 items-center justify-center ">
                 <iframe
                     className="w-full h-[250px] lg:h-[320px] rounded-lg shadow-lg"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.024255506469!2d90.41383867397123!3d23.782150587559336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7a048f54aa7%3A0x32d0204bcd8a361a!2sSmart%20bute%20Body%20Spa!5e0!3m2!1sen!2sbd!4v1733991634616!5m2!1sen!2sbd"
+                    src={webData?.google_map}
                     allowFullScreen=""
                     loading="lazy"
                 ></iframe>
